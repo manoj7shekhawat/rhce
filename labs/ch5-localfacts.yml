@@ -1,0 +1,32 @@
+---
+
+- name: install custom facts
+  hosts: db
+  vars:
+    remote_dir: /etc/ansible/facts.d
+    facts_file: ch5_facts.fact
+  tasks:
+    - name: Create fact directory
+      file:
+        state: directory
+        recurse: yes
+        path: "{{ remote_dir }}"
+    - name: Install new facts
+      copy:
+        src: "{{ facts_file }}"
+        dest: "{{ remote_dir }}"
+
+
+- name: install and start
+  hosts: db
+  tasks:
+  - name: install
+    yum:
+      name: "{{ ansible_local.ch5_facts.facts.package }}"
+  - name: start
+    service:
+      name: "{{ ansible_local.ch5_facts.facts.service }}"
+      state: started
+
+
+...
