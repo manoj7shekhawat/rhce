@@ -1,0 +1,31 @@
+---
+- name: Chapter 4 playbook
+  hosts: ansible2
+  tasks:
+  - name: Ensure apache is at the latest version
+    yum:
+      name: httpd
+      state: latest
+  - name: Copy file with owner and permission, using symbolic representation
+    copy:
+      content: "<h1>Welcome to my Apache HTTP Web Server</h1>"
+      dest: /var/www/html/index.html
+  - name: Start service httpd, if not started
+    service:
+      name: httpd
+      state: started
+  - name: Start service httpd, if not started
+    service:
+      name: firewalld
+      state: started
+  - name: Enable http firewall service
+    firewalld:
+      service: http
+      permanent: yes
+      state: enabled
+      immediate: true
+  - name: Test http working
+    uri:
+      url: http://ansible2/index.html
+
+...

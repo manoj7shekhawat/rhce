@@ -1,0 +1,23 @@
+---
+- name: Chapter 4 undo - playbook
+  hosts: ansible2
+  tasks:
+  - name: Disable http firewall service
+    firewalld:
+      service: http
+      permanent: yes
+      state: disabled
+      immediate: true
+  - name: Stop service httpd, if started
+    service:
+      name: httpd
+      state: stopped
+  - name: Stop service firewalld, if started
+    service:
+      name: firewalld
+      state: stopped
+  - name: remove file
+    file:
+      state: absent
+      path: /var/www/html/index.html
+...
