@@ -16,6 +16,10 @@
     service:
       name: firewalld
       state: stopped
+  - name: Removed httpd
+    yum:
+      name: httpd
+      state: absent 
   - name: remove file
     file:
       state: absent
